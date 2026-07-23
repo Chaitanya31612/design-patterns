@@ -1,13 +1,14 @@
 # Strategy Pattern
 
-## Problem Identifier: [e.g., ProblemName]
+## Problem Identifier: Payment Processing
 
 ### Problem Description
 Describe the design scenario here:
-> 
+> A payment processing simulation or system that lets you choose between different payment strategies at run time.
 
 ### Class Diagram
 <!-- Paste class diagram image here -->
+![](image.png)
 
 ### Constraints & Requirements
 1. The code must be runnable with output showing how the pattern solves the problem.
@@ -16,4 +17,4 @@ Describe the design scenario here:
 ### Reflection: Java vs. Ruby
 Compare the implementations:
 - **Java**: 
-- **Ruby**: 
+- **Ruby**:
