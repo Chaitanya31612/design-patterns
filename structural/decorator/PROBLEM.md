@@ -19,6 +19,7 @@ Implement a classic beverage ordering system where you can customize coffee with
   Beverage beverage = new Whip(new Mocha(new Mocha(new Espresso())));
   ```
 
+![](image.png)
 ---
 
 ## Problem 2 (Ruby): HTML Text Editor Styling

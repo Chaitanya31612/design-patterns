@@ -27,6 +27,7 @@ Implement a simple social media user feed update system.
 - When a user publishes a post via `publish_post(content)`, all of their followers should be notified, updating their local feeds or printing a notification to the console.
 - In Ruby, implement this using a standard list of observer objects, or explore using block-based callbacks (e.g. `user.on_new_post { |post| ... }`).
 
+![](image_1.png)
 ---
 
 ### Constraints & Requirements
