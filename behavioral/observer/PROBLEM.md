@@ -15,6 +15,7 @@ Implement a simple notification system mimicking YouTube subscribers.
 - When the channel uploads a new video via `uploadVideo(String title)`, it must automatically notify all registered subscribers with the title of the video.
 - Test by registering multiple subscribers, uploading a video, unregistering a subscriber, and uploading another video.
 
+![](image.png)
 ---
 
 ## Problem 2 (Ruby): Social Media Feed Notification

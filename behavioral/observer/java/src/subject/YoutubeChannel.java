@@ -30,12 +30,17 @@ public class YoutubeChannel implements Subject {
     @Override
     public void notifyObservers() {
         for (Observer observer : observers) {
-            observer.update(latestVideo);
+            observer.update(this);
         }
     }
 
     public void uploadVideo(String newVideo) {
         System.out.println("Uploading video: " + newVideo);
+        latestVideo = newVideo;
         notifyObservers();
+    }
+
+    public String getLatestVideo() {
+        return latestVideo;
     }
 }

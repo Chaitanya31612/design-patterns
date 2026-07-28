@@ -1,5 +1,7 @@
 package observer;
 
+import subject.Subject;
+
 public interface Observer {
-    void update(String newVideo);
+    void update(Subject subject);
 }

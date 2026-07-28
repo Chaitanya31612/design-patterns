@@ -1,6 +1,6 @@
 package observer;
 
-import subject.Subject;
+import subject.*;
 
 public class Subscriber implements Observer {
     private String name;
@@ -13,7 +13,12 @@ public class Subscriber implements Observer {
     }
 
     @Override
-    public void update(String message) {
-        System.out.println(name + " received new notification for video: " + message);
+    public void update(Subject subject) {
+        if (subject instanceof YoutubeChannel) {
+            YoutubeChannel channel = (YoutubeChannel) subject;
+            System.out.println(name + " received new notification for video: " + channel.getLatestVideo());
+        } else {
+            System.out.println(name + " received new notification from unknown subject");
+        }
     }
 }
