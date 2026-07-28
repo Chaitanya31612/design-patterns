@@ -1,0 +1,3 @@
+Bill Pugh Logger: Hello, world for file! From Thread-3
+Bill Pugh Logger: Hello, world for file! From Thread-5
+Bill Pugh Logger: Hello, world for file! From Thread-4
