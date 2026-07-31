@@ -1,11 +1,19 @@
 package appliances;
 
 public class Light {
+    private boolean isOn = false;
+
+    public boolean isOn() {
+        return isOn;
+    }
+
     public void turnOn() {
-      System.out.println("Light is on");
+        this.isOn = true;
+        System.out.println("Light is on");
     }
 
     public void turnOff() {
-      System.out.println("Light is off");
+        this.isOn = false;
+        System.out.println("Light is off");
     }
 }

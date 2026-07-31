@@ -9,15 +9,15 @@ This directory contains two simple and classic command pattern scenarios:
 ## Problem 1 (Java): Smart Home Remote Control
 
 ### Problem Description
-Imagine we are designing a programmable **Smart Home Remote Control** (the *Invoker*). The remote control has slots/buttons that can be assigned to different commands representing appliances.
+Imagine we are designing a programmable **Smart Home Remote Control** (the *Invoker*). The remote control has slots/buttons that can be assigned to different commands representing actions on smart home devices.
 
-This implementation depicts how a **real toggle remote control** works. Instead of having separate "On" and "Off" buttons for each device, each slot toggles the device's state (ON/OFF) dynamically.
+This implementation demonstrates the **classic stateful-undo Command Pattern**. Each command captures the receiver's state before executing (such as AC temperature or light status) using an internal stack of previous states (`prevStates`/`prevTemps`). This allows the invoker to execute multi-level undo calls directly on the command objects.
 
 Our design supports:
-- **Invoker (`RemoteControl`)**: Keeps track of configured commands (`Command[]`) and a history of executed commands in an `undoStack` (`Stack<Command>`) to support multi-level undo. It provides `setCommand(slot, command)` to configure commands, `pressButton(slot)` to trigger a toggle, and `undoLastAction()` to undo.
-- **Command (`Command`)**: An interface that defines three behaviors: `execute()`, `undo()`, and `toggle()`.
-- **Concrete Commands (`LightCommand`, `FanCommand`)**: Implement the `Command` interface. They keep track of their own state (`isOn: boolean`), hold references to their respective receivers (`Light`, `Fan`), and map actions to them.
-- **Receivers (Appliances)**: Devices such as `Light` and `Fan` that perform the actual actions (`turnOn()` and `turnOff()`).
+- **Invoker (`RemoteControl`)**: Holds an array of assigned commands (`commands: Command[]`) and a history stack of executed commands (`undoStack: Stack<Command>`). It provides `setCommand(slot, command)` to configure commands, `pressButton(slot)` to trigger execution, and `undoLastAction()` to pop the last command and invoke its `undo()` method.
+- **Command Interface (`Command`)**: Defines `execute()` and `undo()`.
+- **Concrete Commands (`AcTempUpCommand`, `AcTempDownCommand`, `LightOnCommand`, `LightOffCommand`, `FanOnCommand`, `FanOffCommand`)**: Implement `Command`. Commands maintain internal state stacks (`prevTemps` / `prevStates`) to preserve the receiver's prior state before each execution, enabling accurate multi-level undo restoration.
+- **Receivers (Appliances)**: Devices such as `AC` (with temperature control), `Light`, and `Fan` that perform the actual actions (`turnOn()`, `turnOff()`, `setTemperature()`).
 
 ### Class Diagram
 ```mermaid
@@ -36,38 +36,67 @@ classDiagram
         <<interface>>
         +execute()
         +undo()
-        +toggle()
     }
 
-    class LightCommand {
+    class AcTempUpCommand {
+        -ac: AC
+        -prevTemps: Stack~Integer~
+        +execute()
+        +undo()
+    }
+
+    class AcTempDownCommand {
+        -ac: AC
+        -prevTemps: Stack~Integer~
+        +execute()
+        +undo()
+    }
+
+    class LightOnCommand {
         -light: Light
-        -isOn: boolean
+        -prevStates: Stack~Boolean~
         +execute()
         +undo()
-        +toggle()
     }
 
-    class FanCommand {
-        -fan: Fan
-        -isOn: boolean
+    class LightOffCommand {
+        -light: Light
+        -prevStates: Stack~Boolean~
         +execute()
         +undo()
-        +toggle()
+    }
+
+    class AC {
+        -temperature: int
+        +getTemperature() int
+        +setTemperature(temp: int)
+        +turnOn()
+        +turnOff()
     }
 
     class Light {
+        -isOn: boolean
+        +isOn() boolean
         +turnOn()
         +turnOff()
     }
 
     class Fan {
+        -isOn: boolean
+        +isOn() boolean
         +turnOn()
         +turnOff()
     }
 
     RemoteControl --> Command : references
-    Command <|.. LightCommand : implements
-    Command <|.. FanCommand : implements
+    Command <|.. AcTempUpCommand : implements
+    Command <|.. AcTempDownCommand : implements
+    Command <|.. LightOnCommand : implements
+    Command <|.. LightOffCommand : implements
+    AcTempUpCommand --> AC : receiver
+    AcTempDownCommand --> AC : receiver
+    LightOnCommand --> Light : receiver
+    LightOffCommand --> Light : receiver
 ```
 
 ---
